@@ -16,6 +16,7 @@ fn print_help() {
     println!("  --b <val>                 Blue channel (0-255)");
     println!("  --color <str>             Color string, e.g. 'rgb(255,0,0)'");
     println!("  --rainbow                 Enable rainbow effect");
+    println!("  --index <val>             LED position (0-...) or 256 for all");
     println!("  -h, --help                Print help information");
 }
 
@@ -89,6 +90,7 @@ fn main() {
     let mut b_opt: Option<i64> = None;
     let mut color_opt: Option<String> = None;
     let mut rainbow_flag = false;
+    let mut index_opt: Option<i64> = None;
     let mut mdns_opt: Option<String> = None;
     let mut port_opt: Option<String> = None;
     let mut list_tools_flag = false;
@@ -180,6 +182,19 @@ fn main() {
                 rainbow_flag = true;
                 i += 1;
             }
+            "--index" => {
+                if i + 1 < args.len() {
+                    let val: i64 = args[i + 1].parse().unwrap_or_else(|_| {
+                        println!("Error: --index requires an integer");
+                        process::exit(1);
+                    });
+                    index_opt = Some(val);
+                    i += 2;
+                } else {
+                    println!("Error: --index requires a value");
+                    process::exit(1);
+                }
+            }
             "-h" | "--help" => {
                 print_help();
                 process::exit(0);
@@ -219,6 +234,7 @@ fn main() {
             || b_opt.is_some()
             || color_opt.is_some()
             || rainbow_flag
+            || index_opt.is_some()
         {
             pos_mdns = Some(pos_args[0].clone());
             if pos_args.len() > 1 {
@@ -261,6 +277,9 @@ fn main() {
     }
     if rainbow_flag {
         tool_args.insert("rainbow".to_string(), json!(true));
+    }
+    if let Some(idx) = index_opt {
+        tool_args.insert("index".to_string(), json!(idx));
     }
 
     let is_list_action = action_opt.as_deref() == Some("list");

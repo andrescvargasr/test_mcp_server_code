@@ -57,6 +57,7 @@ def main():
     parser.add_argument("--b", type=int, help="Blue channel (0-255)")
     parser.add_argument("--color", type=str, help="Color string, e.g., 'rgb(255,0,0)'")
     parser.add_argument("--rainbow", action="store_true", help="Enable rainbow effect")
+    parser.add_argument("--index", type=int, help="LED position (0-...) or 256 for all")
 
     # Connection flags
     parser.add_argument("--mdns", type=str, help="mDNS hostname prefix (default: mcp-led)")
@@ -87,7 +88,7 @@ def main():
                 action = first_arg
             pos_mdns = args.pos_arg2
             pos_port = args.pos_arg3
-        elif list_tools_flag or args.r is not None or args.g is not None or args.b is not None or args.color or args.rainbow:
+        elif list_tools_flag or args.r is not None or args.g is not None or args.b is not None or args.color or args.rainbow or args.index is not None:
             pos_mdns = args.pos_arg1
             pos_port = args.pos_arg2
         else:
@@ -116,6 +117,8 @@ def main():
         tool_args["color"] = args.color
     if args.rainbow:
         tool_args["rainbow"] = True
+    if args.index is not None:
+        tool_args["index"] = args.index
 
     if not list_tools_flag and action != "list" and not tool_args:
         parser.print_help()
