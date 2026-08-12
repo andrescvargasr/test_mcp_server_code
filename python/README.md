@@ -9,7 +9,7 @@ Python script to control an LED device using the **Model Context Protocol (MCP)*
 
 - Communicates with MCP server over HTTP JSON-RPC 2.0.
 - Supports turning the LED **on** / **off**, **toggling** state, and setting preset colors (**red**, **green**, **blue**).
-- Supports custom RGB channels (`--r`, `--g`, `--b`), CSS color strings (`--color`), and rainbow effect (`--rainbow`).
+- Supports custom RGB channels (`--r`, `--g`, `--b`), CSS color strings (`--color`), rainbow effect (`--rainbow`), and LED index selection (`--index`).
 - Supports querying available tools via `tools/list` using the `list` action or `--list-tools` (`-l`, `--list`) flag.
 - Supports positional arguments or explicit `--mdns` and `--port` connection flags.
 - Uses Python standard libraries (`urllib`, `json`, `argparse`) with no extra dependencies needed.
@@ -24,7 +24,7 @@ python control_led.py [action] [mdns] [port] [options]
 
 | Argument / Flag | Required | Default | Description |
 | --- | --- | --- | --- |
-| `[action]` / `--action` | No* | — | LED action: `on`, `off`, `toggle`, `red`, `green`, `blue`, `list` (*Required if `--list-tools`, RGB, color, or rainbow options are not passed) |
+| `[action]` / `--action` | No* | — | LED action: `on`, `off`, `toggle`, `red`, `green`, `blue`, `list` (*Required if `--list-tools`, RGB, color, rainbow, or index options are not passed) |
 | `[mdns]` / `--mdns` | No | `mcp-led` | Hostname prefix for target device (`http://{mdns}.local:{port}/mcp`) |
 | `[port]` / `--port` | No | `8080` | Target server HTTP port |
 | `--list-tools` / `-l` / `--list` | No | `false` | Optional flag to fetch and display available tools from the server via `tools/list` |
@@ -33,6 +33,7 @@ python control_led.py [action] [mdns] [port] [options]
 | `--b` | No | — | Blue channel intensity (`0-255`) |
 | `--color` | No | — | Color string (e.g., `'rgb(255,0,0)'`) |
 | `--rainbow` | No | `false` | Enable rainbow animation effect |
+| `--index` | No | — | LED position (`0-...`) or `256` for all |
 
 ---
 
@@ -106,6 +107,10 @@ python control_led.py --color "rgb(255,0,0)"
 
 # Enable Rainbow Effect
 python control_led.py --rainbow
+
+# Target Specific LED Index (e.g., LED position 0, or 256 for all)
+python control_led.py --r 255 --g 0 --b 0 --index 0
+python control_led.py toggle --index 256
 ```
 
 ### Custom Server Hostname & Port

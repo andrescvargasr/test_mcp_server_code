@@ -28,8 +28,9 @@ Both client implementations support full LED control capability:
 - 💡 **Basic Controls**: Turn LED `on`, `off`, or `toggle` power state.
 - 🎨 **Preset Colors**: Quick color shortcuts for `red`, `green`, and `blue`.
 - 🎛️ **Custom RGB & CSS Colors**: Pass precise RGB channel values (`0-255`) or CSS color strings.
+- 🎯 **Target LED Indexing**: Specify target LED position via `--index` (`0-...`, or `256` for all LEDs).
 - 🌈 **Animations**: Enable rainbow color cycles.
-- 🔍 **Tool Discovery**: Query available server tools via `tools/list` *(Python implementation)*.
+- 🔍 **Tool Discovery**: Query available server tools via `tools/list` (`list` action or `--list-tools`).
 
 ---
 

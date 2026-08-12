@@ -13,7 +13,7 @@ Rust implementation of a command-line client to control an LED device using the 
 - Supports custom mDNS hostnames (`--mdns`) and HTTP ports (`--port`) as flags or positional arguments.
 - Executes `led_control` tool calls with dynamic JSON parameter building.
 - Supports actions: `on`, `off`, `toggle`, `red`, `green`, `blue`, `list`.
-- Supports RGB channels (`--r`, `--g`, `--b`), CSS color strings (`--color`), and rainbow animation (`--rainbow`).
+- Supports RGB channels (`--r`, `--g`, `--b`), CSS color strings (`--color`), rainbow animation (`--rainbow`), and LED index selection (`--index`).
 
 ## Build & Prerequisites
 
@@ -48,6 +48,7 @@ cargo run -- [action] [mdns] [port] [options]
 | `--b <0-255>` | — | Blue channel intensity |
 | `--color <string>` | — | Color string (e.g., `'rgb(255,0,0)'`) |
 | `--rainbow` | `false` | Enable rainbow animation effect |
+| `--index <val>` | — | LED position (`0-...`) or `256` for all |
 | `-h`, `--help` | — | Display usage instructions |
 
 > **Note**: Positional arguments are also supported: `cargo run -- [action] [mdns] [port]`
@@ -92,6 +93,10 @@ cargo run -- --color "rgb(255,0,0)"
 
 # Enable Rainbow effect
 cargo run -- --rainbow
+
+# Target Specific LED Index (e.g., LED position 0, or 256 for all)
+cargo run -- --r 255 --g 0 --b 0 --index 0
+cargo run -- toggle --index 256
 ```
 
 ### Custom Server Hostname & Port
